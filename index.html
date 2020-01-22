@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+	<head>
+    <style>
+      .reveal section pre code {
+      font-size: 0.7em !important;
+}</style>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+        <section data-markdown>
+          ## General review
+
+          ![](imgs/reactLogo.png)
+        </section>
+        <section>
+          <img data-src="imgs/facebook.png" height="500px">
+        </section>
+        <section data-markdown>
+          ## The good
+          
+          1.	Easily reason about how views render
+          2.	JSX means clean, well organized view code
+          3.	You can render React on the server
+          4.	React will trick you into loving functional programming.
+        </section>
+        <section>
+          <p class="fragment" data-fragment-index="1">1.You DON'T GET any of the following:
+            <ul class="fragment" data-fragment-index="1">
+              <li>An event system (other than vanilla DOM events)</li>
+              <li>Any AJAX capabilities whatsoever</li>
+              <li>Any form of a data layer</li>
+              <li>Promises</li>
+              <li>Any application framework</li>
+            </ul>
+            </p>
+          <p class="fragment" data-fragment-index="2">2.Welcome to Webpack and a new ecosystem. </p>
+          <p class="fragment" data-fragment-index="3">3.Flux and data flow are complex patterns for beginners</p>
+        </section>
+        
+        <section>
+          <h2>The setup</h2><br>
+          <pre><code data-trim data-noescape class="hljs">
+&lthtml&gt
+&lthead&gt
+&ltscript src="https://unpkg.com/react@16/umd/react.development.js"&gt&lt/script&gt
+&ltscript src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" &gt&lt/script&gt
+&ltscript src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js" &gt&lt/script&gt
+&lt/head&gt
+&ltbody&gt
+    &ltdiv id="root"&gt&ltdiv&gt
+    &ltscript type="text/babel"&gt
+    /*  ADD REACT CODE HERE  */ 
+    &lt/script&gt
+&lt/body&gt
+&lt/html&gt
+          </code></pre>
+        </section>  
+        <section>
+          <section>
+          <h2>Components</h2>
+          <pre><code data-trim data-noescape class="hljs">
+class Hello extends React.Component {  
+    render() {  
+        return &lth1&gtHello world!&lth1&gt;;  
+    }  
+}
+                      </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim data-noescape class="hljs">
+ReactDOM.render(  
+    &lt;Hello /&gt;,   
+    document.getElementById(&quot;root&quot;)  
+);
+                                    </code></pre>
+          </section>
+          <section>
+            <h2>Result:</h2>
+            <img data-src="imgs/hello.png">
+          </section>
+        </section>
+        <section>
+          <section>
+            <img data-src="imgs/stateandprops.png">
+          </section>
+          <section>
+            <h2>Props</h2>
+            <pre><code data-trim data-noescape class="hljs">
+ReactDOM.render(  
+    &lt;Hello message=&quot;my friend&quot; /&gt;,   
+    document.getElementById(&quot;root&quot;)  
+);
+            </code></pre>
+          </section>
+          <section>
+            <pre><code data-trim data-noescape class="hljs">
+class Hello extends React.Component {  
+    render() {  
+        return &lt;h1&gt;Hello {this.props.message}!&lt;/h1&gt;;  
+    }  
+}
+              </code></pre>
+          </section>
+          <section>
+            <h2>Result:</h2>
+            <img data-src="imgs/friend.png">
+          </section>
+          <section>
+            <h2>Initializing state</h2>
+            <pre><code data-trim data-noescape class="hljs">
+class Hello extends React.Component {  
+      
+    constructor(){  
+        super();  
+        this.state = {  
+            message: &quot;my friend (from state)!&quot;  
+        };  
+    }  
+      
+    render() {  
+        return &lt;h1&gt;Hello {this.state.message}!&lt;/h1&gt;;  
+    }  
+}
+                            </code></pre>
+          </section>
+          <section>
+            <h2>Changing the state</h2>
+            <pre><code data-trim data-noescape class="hljs">
+class Hello extends React.Component {     
+    constructor(){  
+        super();  
+        this.state = { message: &quot;my friend (from state)!&quot; };  
+        this.updateMessage = this.updateMessage.bind(this);   
+   }
+   updateMessage() {  
+        this.setState({ message: &quot;my friend (from changed state)!&quot; });  
+    }
+    render() {  
+        return &lt;h1&gt;Hello {this.state.message}!&lt;/h1&gt;;  
+    }  
+}
+              </code></pre>
+          </section>
+          <section>
+            <h2>Event Handlers</h2>
+            <pre><code data-trim data-noescape class="hljs">
+render() {  
+  return (  
+     &lt;div&gt;  
+       &lt;h1&gt;Hello {this.state.message}!&lt;/h1&gt;  
+       &lt;button onClick={this.updateMessage}\&gt;Click me!&lt;/button&gt;  
+     &lt;/div&gt;     
+  )  
+}
+                            </code></pre>
+          </section>
+          <section>
+            <h2>Entire component:</h2>
+            <pre><code data-trim data-noescape class="hljs">
+class Hello extends React.Component {  
+    constructor(){  
+        super();  
+        this.state = { message: &quot;my friend (from state)!&quot; };  
+        this.updateMessage = this.updateMessage.bind(this);  
+    }
+    updateMessage() {  
+        this.setState({ message: &quot;my friend (from changed state)!&quot; });  
+    }
+    render() { 
+         return (  
+           &lt;div&gt;  
+             &lt;h1&gt;Hello {this.state.message}!&lt;/h1&gt;  
+             &lt;button onClick={this.updateMessage}/&gt;Click me!&lt;/button&gt;  
+           &lt;/div&gt;     
+        )  
+    }  
+}
+        </code></pre>
+          </section>
+          <section>
+            <h2>Result:</h2>
+            <img data-src="imgs/gif.gif">
+          </section>
+        </section>
+        <section data-markdown>
+          ## Why you should use React:
+          
+          1. Works great for teams, strongly enforcing UI and workflow patterns
+          2. UI code is readable and maintainable
+          3. Componentized UI is the future of web development, and you need to start doing it now.
+
+        </section>
+        <section data-markdown>
+          # Thank you for your attention!
+        </section>
+			</div>
+		</div>
+
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				hash: true,
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js' },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
